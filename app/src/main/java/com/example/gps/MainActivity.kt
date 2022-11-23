@@ -127,7 +127,98 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            butt.isEnabled = true
+        }
+
+        if(requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Tv1.isEnabled = true
+            Switch.isEnabled = true
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 102) {
+            val img = data?.getParcelableExtra<Bitmap>("data")
+            zdjecie.setImageBitmap(img)
+        }
+    }
+
+    private fun checkLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
+    }
+
+    private  fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if(checkLocationPermission()) {
+            if(isLocationEnabled()) {
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
+                    val location: Location? = task.result
+                    if(location == null) {
+                        getNewLocation()
+                    } else {
+                        Tv9.text = location.latitude.toString()
+                        Tv7.text = location.longitude.toString()
+                        getCityName(location.latitude, location.longitude)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getNewLocation() {
+        TODO("Not yet implemented")
+    }
 
 
+    private val locationCallback = object: LocationCallback() {
+        override fun onLocationResult(p0: LocationResult) {
+            val lastLocation = p0.lastLocation
+            Tv9.text = lastLocation.latitude.toString()
+            Tv7.text = lastLocation.longitude.toString()
+            getCityName(lastLocation.latitude, lastLocation.longitude)
+        }
+    }
+
+    private fun getCityName(lat: Double,long: Double){
+        var cityName: String?
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        val address = geoCoder.getFromLocation(lat,long,1)
+        cityName = address[0].adminArea
+        if (cityName == null){
+            cityName = address[0].locality
+            if (cityName == null){
+                cityName = address[0].subAdminArea
+            }
+        }
+        Tv3.text = cityName
+        Tv5.text = address[0].countryName
+    }
 }
+
+
+
+
+
 

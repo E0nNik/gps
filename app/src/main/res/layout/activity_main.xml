@@ -6,36 +6,31 @@
     tools:context=".MainActivity"
     >
 
-    <TextView
-        android:id="@+id/imie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Nierzwicki Ksawery"
-        android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/imie"
         android:layout_above="@id/butt"
         android:layout_margin="20dp">
 
         <ImageView
             android:id="@+id/zdjecie"
-            android:contentDescription="ownImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
             android:layout_centerInParent="true"/>
+
+
 
     </RelativeLayout>
 
     <Button
         android:id="@+id/butt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/Space"
+        android:background="@color/black"
+        android:textColor="@color/white"
         android:enabled="false"
         android:text="Kliknij"/>
 
@@ -57,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pokaz Lokalizacje"
+            android:textSize="20dp"
             android:enabled="false"/>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -84,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="#FF0080"
-                android:text="miasto"
+                android:text="Wojewodztwo"
                 android:visibility="invisible"
                 android:layout_above="@id/Tv3"
                 android:layout_centerHorizontal="true"/>
@@ -110,7 +105,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="#FF0080"
                 android:text="Panstwo"
                 android:visibility="invisible"
                 android:layout_below="@id/Space2"
@@ -128,6 +122,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -137,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="#FF0080"
                 android:text="dlugosc"
                 android:visibility="invisible"
                 android:layout_above="@id/Tv7"
@@ -149,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/white"
-                android:layout_above="@id/Tv9"
+                android:layout_above="@id/Space3"
                 android:layout_centerHorizontal="true"/>
 
             <Space
@@ -163,7 +157,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="#FF0080"
                 android:text="szerokosc"
                 android:visibility="invisible"
                 android:layout_below="@id/Space3"
@@ -178,8 +171,9 @@
                 android:layout_below="@id/Tv8"
                 android:layout_centerHorizontal="true"/>
 
+
+
         </RelativeLayout>
 
     </LinearLayout>
-
 </RelativeLayout>
